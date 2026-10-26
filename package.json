@@ -6,11 +6,18 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --check ."
+    "format": "prettier --check .",
+    "prepare": "husky"
   },
   "devDependencies": {
     "eslint": "^9.0.0",
     "globals": "^15.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
     "prettier": "^3.0.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint",
+    "*.{html,css,js}": "prettier --check"
   }
 }
