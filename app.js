@@ -51,7 +51,8 @@ const addTask = function () {
 
   //Append listItem to incompleteTaskHolder
   incompleteTaskHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskCompleted);
+
+  bindTaskEvents(listItem, toggleTaskState);
 
   taskInput.value = "";
 };
@@ -88,27 +89,16 @@ const deleteTask = function () {
   ul.removeChild(listItem);
 };
 
-//Mark task completed
-const taskCompleted = function () {
-  //Append the task list item to the #completed-tasks
+const toggleTaskState = function () {
   const listItem = this.parentNode;
-  completedTasksHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskIncomplete);
+  const checkBox = this;
+
+  const targetHolder = checkBox.checked ? completedTasksHolder : incompleteTaskHolder;
+
+  targetHolder.appendChild(listItem);
+  bindTaskEvents(listItem, toggleTaskState);
 };
 
-const taskIncomplete = function () {
-  //Mark task as incomplete.
-  //When the checkbox is unchecked
-  //Append the task list item to the #incompleteTasks.
-  const listItem = this.parentNode;
-  incompleteTaskHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskCompleted);
-};
-
-//The glue to hold it all together.
-
-//Set the click handler to the addTask function.
-addButton.onclick = addTask;
 addButton.addEventListener("click", addTask);
 
 const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
@@ -129,11 +119,11 @@ const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
 //for each list item
 for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
   //bind events to list items chldren(tasksCompleted)
-  bindTaskEvents(incompleteTaskHolder.children[i], taskCompleted);
+  bindTaskEvents(incompleteTaskHolder.children[i], toggleTaskState);
 }
 
 //cycle over completedTasksHolder ul list items
 for (let i = 0; i < completedTasksHolder.children.length; i++) {
   //bind events to list items chldren(tasksIncompleted)
-  bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
+  bindTaskEvents(completedTasksHolder.children[i], toggleTaskState);
 }
