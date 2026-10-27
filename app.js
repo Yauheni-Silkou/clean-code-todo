@@ -3,30 +3,45 @@ const addButton = document.getElementsByTagName("button")[0];
 const incompleteTaskHolder = document.getElementById("incompleteTasks");
 const completedTasksHolder = document.getElementById("completed-tasks");
 
+const createCheckbox = function () {
+  const checkBox = document.createElement("input");
+  checkBox.type = "checkbox";
+  return checkBox;
+};
+
+const createEditInput = function () {
+  const editInput = document.createElement("input");
+  editInput.type = "text";
+  editInput.className = "task";
+  return editInput;
+};
+
+const createTaskButton = function (className, textContent, imgIconSrc = null) {
+  const button = document.createElement("button");
+  button.className = className;
+
+  if (imgIconSrc) {
+    const iconImg = document.createElement("img");
+    iconImg.src = imgIconSrc;
+    button.appendChild(iconImg);
+  } else {
+    button.innerText = textContent;
+  }
+
+  return button;
+};
+
 const createNewTaskElement = function (taskString) {
   const listItem = document.createElement("li");
 
-  const checkBox = document.createElement("input");
+  const checkBox = createCheckbox();
   const label = document.createElement("label");
-  const editInput = document.createElement("input");
-  const editButton = document.createElement("button");
-
-  const deleteButton = document.createElement("button");
-  const deleteButtonImg = document.createElement("img");
+  const editInput = createEditInput();
+  const editButton = createTaskButton("edit", "Edit");
+  const deleteButton = createTaskButton("delete", "", "./remove.svg");
 
   label.innerText = taskString;
   label.className = "task";
-
-  checkBox.type = "checkbox";
-  editInput.type = "text";
-  editInput.className = "task";
-
-  editButton.innerText = "Edit"; //innerText encodes special characters, HTML does not.
-  editButton.className = "edit";
-
-  deleteButton.className = "delete";
-  deleteButtonImg.src = "./remove.svg";
-  deleteButton.appendChild(deleteButtonImg);
 
   listItem.appendChild(checkBox);
   listItem.appendChild(label);
